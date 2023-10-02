@@ -1,2 +1,2 @@
 #!/bin/bash
-echo -e "(\u00D4\u006F\u0027"
+echo -e "(\u00D4\u006F)\u0027"
