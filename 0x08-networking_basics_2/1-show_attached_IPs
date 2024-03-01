@@ -1,4 +1,16 @@
 #!/usr/bin/env bash
 # Display all acive IPv4 addresses on the machine.
 
-ifconfig | grep -Eo "inet (addr:)?([0-9]*\.){3}[0-9]*" | cut -b 11-
+if command -v ifconfig &> /dev/null; then
+    # For systems with 'ifconfig' command
+    ips=$(ifconfig | grep 'inet ' | awk '{print $2}')
+else
+    # For systems with 'ip' command
+    ips=$(ip addr show | grep 'inet ' | awk '{print $2}')
+fi
+
+# Filter out IPv6 and loopback addresses
+active_ips=$(echo "$ips" | grep -vE '127\.0\.0\.1|::1')
+
+# Print the active IPv4 addresses
+echo "$active_ips"
